@@ -32,11 +32,9 @@ public class ClienteService {
             throw new RuntimeException("CPF já cadastrado no banco");
         }
 
-        Cliente cliente = clienteMapper.toResponseEntity(clienteDto);
+        Cliente cliente = clienteMapper.toRequestEntity(clienteDto);
 
-        Cliente clienteSalvo = clienteRepository.save(cliente);
-
-        return clienteMapper.toResponseDto(clienteSalvo);
+        return clienteMapper.toResponseDto(clienteRepository.save(cliente));
     }
 
 

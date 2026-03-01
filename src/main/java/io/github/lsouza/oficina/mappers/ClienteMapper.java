@@ -10,7 +10,7 @@ public interface ClienteMapper {
 
     Cliente toEntity(ClienteResponseDto clienteDto);
 
-    Cliente toResponseEntity(ClienteRequestDto clienteRequestDto);
+    Cliente toRequestEntity(ClienteRequestDto clienteRequestDto);
 
     ClienteResponseDto toResponseDto(Cliente cliente);
 
