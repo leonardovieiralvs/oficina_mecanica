@@ -13,28 +13,28 @@ import java.time.LocalDate;
 import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
+@Table(name = "ordem_servico")
 public class OrdemServico {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     @NotBlank(message = "Campo obrigatório")
     private String descricao;
+
     @NotNull(message = "Campo obrigatório")
     private BigDecimal valor;
-    @NotNull(message = "Campo obrigatório")
+
+    @Enumerated(EnumType.STRING)
     private StatusOS statusOS;
+
     @CreatedDate
     private LocalDate dataAbertura;
+
     @LastModifiedDate
     private LocalDate dataConclusao;
+
+    @ManyToOne
     private Veiculo veiculo;
 }
- // -------------
-//id: UUID
-//descricao: String
-//valor: BigDecimal
-//status: StatusOS (ENUM)
-//dataAbertura: LocalDate
-//dataConclusao: LocalDate
-//veiculo: Veiculo
