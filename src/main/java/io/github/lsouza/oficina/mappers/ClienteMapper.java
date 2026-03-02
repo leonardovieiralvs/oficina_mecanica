@@ -4,18 +4,16 @@ import io.github.lsouza.oficina.dto.ClienteRequestDto;
 import io.github.lsouza.oficina.dto.ClienteResponseDto;
 import io.github.lsouza.oficina.models.Cliente;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface ClienteMapper {
 
-    Cliente toEntity(ClienteResponseDto clienteDto);
 
-    Cliente toRequestEntity(ClienteRequestDto clienteRequestDto);
+    Cliente toEntityRequest(ClienteRequestDto clienteRequestDto);
 
     ClienteResponseDto toResponseDto(Cliente cliente);
 
-    ClienteRequestDto toRequestDto(Cliente cliente);
-
-
+    void atualizar(@MappingTarget Cliente cliente, ClienteRequestDto clienteDto);
 
 }

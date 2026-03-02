@@ -2,12 +2,15 @@ package io.github.lsouza.oficina.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "cliente")
 public class Cliente {
@@ -27,6 +30,4 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente")
     private List<Veiculo> veiculo;
-
-
 }

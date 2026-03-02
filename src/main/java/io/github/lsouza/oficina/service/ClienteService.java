@@ -2,12 +2,16 @@ package io.github.lsouza.oficina.service;
 
 import io.github.lsouza.oficina.dto.ClienteRequestDto;
 import io.github.lsouza.oficina.dto.ClienteResponseDto;
+import io.github.lsouza.oficina.exceptions.ConflictException;
 import io.github.lsouza.oficina.mappers.ClienteMapper;
 import io.github.lsouza.oficina.models.Cliente;
 import io.github.lsouza.oficina.repository.ClienteRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
 @Transactional
@@ -27,15 +31,27 @@ public class ClienteService {
         return clienteMapper.toResponseDto(clienteResultado);
     }
 
+    public List<ClienteResponseDto> listarTodos() {
+        List<Cliente> all = clienteRepository.findAll();
+        return all.stream().map(clienteMapper::toResponseDto).toList();
+    }
+
     public ClienteResponseDto salvarCliente(ClienteRequestDto clienteDto) {
         if (clienteRepository.existsByCpf(clienteDto.cpf())) {
-            throw new RuntimeException("CPF já cadastrado no banco");
+            throw new ConflictException("CPF já cadastrado no banco");
         }
 
-        Cliente cliente = clienteMapper.toRequestEntity(clienteDto);
-
+        Cliente cliente = clienteMapper.toEntityRequest(clienteDto);
         return clienteMapper.toResponseDto(clienteRepository.save(cliente));
     }
 
+    public ClienteResponseDto atualizarCliente(UUID id, ClienteRequestDto clienteDto) {
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        clienteMapper.atualizar(cliente, clienteDto);
+
+        return clienteMapper.toResponseDto(cliente);
+
+    }
 
 }
