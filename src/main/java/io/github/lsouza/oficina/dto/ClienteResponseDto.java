@@ -5,6 +5,5 @@ import java.util.UUID;
 public record ClienteResponseDto(UUID id,
                                  String nome,
                                  String cpf,
-                                 String telefone,
-                                 VeiculoResponseDto veiculoResponseDto) {
+                                 String telefone) {
 }

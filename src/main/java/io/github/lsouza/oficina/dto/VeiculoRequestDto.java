@@ -11,6 +11,5 @@ public record VeiculoRequestDto(@NotBlank(message = "Campo obrigatório")
                                 String modelo,
                                 @NotNull(message = "Campo obrigatório")
                                 Integer ano,
-                                @NotBlank(message = "O veiculo deve conter um cliente")
                                 UUID idCliente) {
 }

@@ -1,7 +1,7 @@
 package io.github.lsouza.oficina.exceptions.handler;
 
-import io.github.lsouza.oficina.dto.ErroCampo;
-import io.github.lsouza.oficina.dto.ErroRespostaDto;
+import io.github.lsouza.oficina.dto.errors.ErroCampo;
+import io.github.lsouza.oficina.dto.errors.ErroRespostaDto;
 import io.github.lsouza.oficina.exceptions.ConflictException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;

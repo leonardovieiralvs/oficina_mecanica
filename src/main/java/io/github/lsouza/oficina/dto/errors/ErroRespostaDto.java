@@ -1,4 +1,4 @@
-package io.github.lsouza.oficina.dto;
+package io.github.lsouza.oficina.dto.errors;
 
 import lombok.Builder;
 

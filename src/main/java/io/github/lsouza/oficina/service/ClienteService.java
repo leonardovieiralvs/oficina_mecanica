@@ -5,7 +5,9 @@ import io.github.lsouza.oficina.dto.ClienteResponseDto;
 import io.github.lsouza.oficina.exceptions.ConflictException;
 import io.github.lsouza.oficina.mappers.ClienteMapper;
 import io.github.lsouza.oficina.models.Cliente;
+import io.github.lsouza.oficina.models.Veiculo;
 import io.github.lsouza.oficina.repository.ClienteRepository;
+import io.github.lsouza.oficina.repository.VeiculoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,12 +39,15 @@ public class ClienteService {
     }
 
     public ClienteResponseDto salvarCliente(ClienteRequestDto clienteDto) {
+
         if (clienteRepository.existsByCpf(clienteDto.cpf())) {
             throw new ConflictException("CPF já cadastrado no banco");
         }
 
         Cliente cliente = clienteMapper.toEntityRequest(clienteDto);
-        return clienteMapper.toResponseEntity(clienteRepository.save(cliente));
+        Cliente clienteSalvo = clienteRepository.save(cliente);
+
+        return clienteMapper.toResponseEntity(clienteSalvo);
     }
 
     public ClienteResponseDto atualizarCliente(UUID id, ClienteRequestDto clienteDto) {

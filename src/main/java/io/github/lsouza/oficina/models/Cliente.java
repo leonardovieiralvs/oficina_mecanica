@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,11 +13,11 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "cliente")
-public class Cliente {
+public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID uuid;
+    private UUID id;
 
     @NotBlank(message = "Campo obrigatório")
     private String nome;
@@ -29,7 +30,4 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente")
     private List<Veiculo> veiculo;
-
-    @Column(name = "veiculo_id")
-    private UUID veiculo_id;
 }
