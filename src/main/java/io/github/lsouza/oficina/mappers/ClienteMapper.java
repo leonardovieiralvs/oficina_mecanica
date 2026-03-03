@@ -12,7 +12,7 @@ public interface ClienteMapper {
 
     Cliente toEntityRequest(ClienteRequestDto clienteRequestDto);
 
-    ClienteResponseDto toResponseDto(Cliente cliente);
+    ClienteResponseDto toResponseEntity(Cliente cliente);
 
     void atualizar(@MappingTarget Cliente cliente, ClienteRequestDto clienteDto);
 

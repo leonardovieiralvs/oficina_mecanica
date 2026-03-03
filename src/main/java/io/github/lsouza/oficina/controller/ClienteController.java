@@ -45,7 +45,11 @@ public class ClienteController {
                                                                @RequestBody @Valid ClienteRequestDto clienteDto) {
         ClienteResponseDto clienteResponseDto = clienteService.atualizarCliente(id, clienteDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(clienteResponseDto);
+    }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarCliente(@PathVariable UUID id) {
+        clienteService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

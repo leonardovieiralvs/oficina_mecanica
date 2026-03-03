@@ -28,12 +28,12 @@ public class ClienteService {
 
     public ClienteResponseDto procurarPorId(UUID id) {
         Cliente clienteResultado = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-        return clienteMapper.toResponseDto(clienteResultado);
+        return clienteMapper.toResponseEntity(clienteResultado);
     }
 
     public List<ClienteResponseDto> listarTodos() {
         List<Cliente> all = clienteRepository.findAll();
-        return all.stream().map(clienteMapper::toResponseDto).toList();
+        return all.stream().map(clienteMapper::toResponseEntity).toList();
     }
 
     public ClienteResponseDto salvarCliente(ClienteRequestDto clienteDto) {
@@ -42,7 +42,7 @@ public class ClienteService {
         }
 
         Cliente cliente = clienteMapper.toEntityRequest(clienteDto);
-        return clienteMapper.toResponseDto(clienteRepository.save(cliente));
+        return clienteMapper.toResponseEntity(clienteRepository.save(cliente));
     }
 
     public ClienteResponseDto atualizarCliente(UUID id, ClienteRequestDto clienteDto) {
@@ -50,8 +50,12 @@ public class ClienteService {
 
         clienteMapper.atualizar(cliente, clienteDto);
 
-        return clienteMapper.toResponseDto(cliente);
+        return clienteMapper.toResponseEntity(cliente);
+    }
 
+    public void deleteById(UUID id) {
+        Cliente clienteNotFound = clienteRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        clienteRepository.deleteById(id);
     }
 
 }
