@@ -1,7 +1,8 @@
 package io.github.lsouza.oficina.service;
 
-import io.github.lsouza.oficina.dto.ClienteRequestDto;
-import io.github.lsouza.oficina.dto.ClienteResponseDto;
+import io.github.lsouza.oficina.dto.clientes.ClienteRequestDto;
+import io.github.lsouza.oficina.dto.clientes.ClienteResponseDto;
+import io.github.lsouza.oficina.dto.veiculos.VeiculoRequestDto;
 import io.github.lsouza.oficina.exceptions.ConflictException;
 import io.github.lsouza.oficina.mappers.ClienteMapper;
 import io.github.lsouza.oficina.models.Cliente;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class ClienteService {
 
     private ClienteRepository clienteRepository;
+    private VeiculoRepository veiculoRepository;
     private ClienteMapper clienteMapper;
 
     public ClienteService(ClienteRepository clienteRepository, ClienteMapper clienteMapper) {
@@ -58,9 +60,13 @@ public class ClienteService {
         return clienteMapper.toResponseEntity(cliente);
     }
 
-    public void deleteById(UUID id) {
-        Cliente clienteNotFound = clienteRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        clienteRepository.deleteById(id);
+    public void deleteById(UUID id, Veiculo veiculo) {
+        if (clienteRepository.existsByVeiculos(veiculo)) {
+            throw new RuntimeException("Tes");
+        }
+
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        clienteRepository.delete(cliente);
     }
 
 }

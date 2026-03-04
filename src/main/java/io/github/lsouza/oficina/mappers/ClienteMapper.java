@@ -1,7 +1,7 @@
 package io.github.lsouza.oficina.mappers;
 
-import io.github.lsouza.oficina.dto.ClienteRequestDto;
-import io.github.lsouza.oficina.dto.ClienteResponseDto;
+import io.github.lsouza.oficina.dto.clientes.ClienteRequestDto;
+import io.github.lsouza.oficina.dto.clientes.ClienteResponseDto;
 import io.github.lsouza.oficina.models.Cliente;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

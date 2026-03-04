@@ -28,8 +28,9 @@ public class Veiculo implements Serializable {
     private Integer ano;
 
     @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
     @OneToMany(mappedBy = "veiculo")
-    private List<OrdemServico> ordemServico;
+    private List<OrdemServico> ordensServico;
 }

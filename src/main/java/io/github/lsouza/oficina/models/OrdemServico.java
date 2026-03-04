@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -31,14 +32,14 @@ public class OrdemServico implements Serializable {
     private BigDecimal valor;
 
     @Enumerated(EnumType.STRING)
-    private StatusOS statusOS;
+    private StatusOS status;
 
     @CreatedDate
-    private LocalDate dataAbertura;
+    private LocalDateTime dataAbertura;
 
-    @LastModifiedDate
     private LocalDate dataConclusao;
 
     @ManyToOne
+    @JoinColumn(name = "veiculo_id", nullable = false)
     private Veiculo veiculo;
 }

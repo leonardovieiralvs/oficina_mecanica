@@ -1,7 +1,8 @@
 package io.github.lsouza.oficina.controller;
 
-import io.github.lsouza.oficina.dto.ClienteRequestDto;
-import io.github.lsouza.oficina.dto.ClienteResponseDto;
+import io.github.lsouza.oficina.dto.clientes.ClienteRequestDto;
+import io.github.lsouza.oficina.dto.clientes.ClienteResponseDto;
+import io.github.lsouza.oficina.models.Veiculo;
 import io.github.lsouza.oficina.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -48,8 +49,8 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarCliente(@PathVariable UUID id) {
-        clienteService.deleteById(id);
+    public ResponseEntity<Void> deletarCliente(@PathVariable UUID id, Veiculo veiculo) {
+        clienteService.deleteById(id, veiculo);
         return ResponseEntity.noContent().build();
     }
 }

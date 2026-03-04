@@ -29,5 +29,5 @@ public class Cliente implements Serializable {
     private String telefone;
 
     @OneToMany(mappedBy = "cliente")
-    private List<Veiculo> veiculo;
+    private List<Veiculo> veiculos;
 }

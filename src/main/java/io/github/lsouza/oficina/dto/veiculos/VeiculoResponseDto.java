@@ -1,11 +1,11 @@
-package io.github.lsouza.oficina.dto;
+package io.github.lsouza.oficina.dto.veiculos;
 
-import java.util.List;
+import io.github.lsouza.oficina.dto.clientes.ClienteResponseDto;
+
 import java.util.UUID;
 
 public record VeiculoResponseDto(UUID id,
                                  String placa,
                                  String modelo,
                                  Integer ano,
-                                 ClienteResponseDto cliente) {
-}
+                                 ClienteResponseDto cliente){}

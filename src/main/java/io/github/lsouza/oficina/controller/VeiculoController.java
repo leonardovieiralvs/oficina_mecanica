@@ -1,7 +1,7 @@
 package io.github.lsouza.oficina.controller;
 
-import io.github.lsouza.oficina.dto.VeiculoRequestDto;
-import io.github.lsouza.oficina.dto.VeiculoResponseDto;
+import io.github.lsouza.oficina.dto.veiculos.VeiculoRequestDto;
+import io.github.lsouza.oficina.dto.veiculos.VeiculoResponseDto;
 import io.github.lsouza.oficina.service.VeiculoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -27,9 +27,9 @@ public class VeiculoController {
     }
 
     @PostMapping
-    public ResponseEntity<VeiculoResponseDto> salvarVeiculo(UUID id, @RequestBody @Valid VeiculoRequestDto veiculoRequestDto) {
+    public ResponseEntity<VeiculoResponseDto> salvarVeiculo(@RequestBody @Valid VeiculoRequestDto veiculoRequestDto) {
 
-        VeiculoResponseDto veiculoSalvo = veiculoService.salvarCliente(id, veiculoRequestDto);
+        VeiculoResponseDto veiculoSalvo = veiculoService.salvarVeiculo(veiculoRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(veiculoSalvo);
     }
 }
