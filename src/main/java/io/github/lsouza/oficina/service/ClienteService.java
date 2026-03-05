@@ -2,11 +2,10 @@ package io.github.lsouza.oficina.service;
 
 import io.github.lsouza.oficina.dto.clientes.ClienteRequestDto;
 import io.github.lsouza.oficina.dto.clientes.ClienteResponseDto;
-import io.github.lsouza.oficina.dto.veiculos.VeiculoRequestDto;
 import io.github.lsouza.oficina.exceptions.ConflictException;
+import io.github.lsouza.oficina.exceptions.OperationNotAllowedException;
 import io.github.lsouza.oficina.mappers.ClienteMapper;
 import io.github.lsouza.oficina.models.Cliente;
-import io.github.lsouza.oficina.models.Veiculo;
 import io.github.lsouza.oficina.repository.ClienteRepository;
 import io.github.lsouza.oficina.repository.VeiculoRepository;
 import org.springframework.http.HttpStatus;
@@ -25,8 +24,9 @@ public class ClienteService {
     private VeiculoRepository veiculoRepository;
     private ClienteMapper clienteMapper;
 
-    public ClienteService(ClienteRepository clienteRepository, ClienteMapper clienteMapper) {
+    public ClienteService(ClienteRepository clienteRepository, VeiculoRepository veiculoRepository, ClienteMapper clienteMapper) {
         this.clienteRepository = clienteRepository;
+        this.veiculoRepository = veiculoRepository;
         this.clienteMapper = clienteMapper;
     }
 
@@ -60,13 +60,10 @@ public class ClienteService {
         return clienteMapper.toResponseEntity(cliente);
     }
 
-    public void deleteById(UUID id, Veiculo veiculo) {
-        if (clienteRepository.existsByVeiculos(veiculo)) {
-            throw new RuntimeException("Tes");
+    public void deleteById(UUID id) {
+        if (veiculoRepository.existsByCliente_id(id)) {
+            throw new OperationNotAllowedException("cliente_id", "Não é possivel remover um cliente que possui um Veículo.");
         }
-
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        clienteRepository.delete(cliente);
+        clienteRepository.deleteById(id);
     }
-
 }

@@ -12,6 +12,4 @@ public interface ClienteRepository extends JpaRepository<Cliente, UUID>, JpaSpec
 
     boolean existsByCpf(String cpf);
 
-    boolean existsByVeiculos(Veiculo veiculo);
-
 }

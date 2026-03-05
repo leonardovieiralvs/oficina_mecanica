@@ -3,6 +3,7 @@ package io.github.lsouza.oficina.exceptions.handler;
 import io.github.lsouza.oficina.dto.errors.ErroCampo;
 import io.github.lsouza.oficina.dto.errors.ErroRespostaDto;
 import io.github.lsouza.oficina.exceptions.ConflictException;
+import io.github.lsouza.oficina.exceptions.OperationNotAllowedException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,19 @@ public class GlobalExceptionHandler {
                 .path(request.getRequestURI())
                 .build();
         return ResponseEntity.badRequest().body(formatoInvalido);
+    }
+
+    @ExceptionHandler(OperationNotAllowedException.class)
+    public ResponseEntity<ErroRespostaDto> operationNotAllowedHandler(OperationNotAllowedException e,
+                                                                      HttpServletRequest request) {
+        ErroRespostaDto errorResponse = ErroRespostaDto.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.CONFLICT.value())
+                .message("Operation Not Allowed")
+                .errors(List.of(new ErroCampo(e.getCampo(), e.getMessage())))
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 }
