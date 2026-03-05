@@ -9,4 +9,7 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, UUID> {
 
 
     boolean existsByCliente_id(UUID id);
+
+    boolean existsByPlaca(String placa);
+
 }

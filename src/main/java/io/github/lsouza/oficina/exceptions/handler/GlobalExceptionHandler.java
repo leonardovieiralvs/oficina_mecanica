@@ -4,9 +4,11 @@ import io.github.lsouza.oficina.dto.errors.ErroCampo;
 import io.github.lsouza.oficina.dto.errors.ErroRespostaDto;
 import io.github.lsouza.oficina.exceptions.ConflictException;
 import io.github.lsouza.oficina.exceptions.OperationNotAllowedException;
+import io.github.lsouza.oficina.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,8 +27,7 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.CONFLICT.value())
                 .message(e.getMessage())
-                .path(request.getRequestURI())
-                .build();
+                .path(request.getRequestURI()).build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(path);
     }
 
@@ -38,24 +39,49 @@ public class GlobalExceptionHandler {
         ErroRespostaDto formatoInvalido = ErroRespostaDto.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
-                .message("Formato Json inválido")
-                .errors(error)
-                .path(request.getRequestURI())
-                .build();
+                .message("Erro de validação").errors(error)
+                .path(request.getRequestURI()).build();
         return ResponseEntity.badRequest().body(formatoInvalido);
     }
 
     @ExceptionHandler(OperationNotAllowedException.class)
-    public ResponseEntity<ErroRespostaDto> operationNotAllowedHandler(OperationNotAllowedException e,
+    public ResponseEntity<ErroRespostaDto> operationNotAllowedExceptionHandler(OperationNotAllowedException e,
                                                                       HttpServletRequest request) {
         ErroRespostaDto errorResponse = ErroRespostaDto.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.CONFLICT.value())
                 .message("Operation Not Allowed")
                 .errors(List.of(new ErroCampo(e.getCampo(), e.getMessage())))
+                .path(request.getRequestURI()).build();
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErroRespostaDto> resourceNotFoundExceptionHandler(ResourceNotFoundException e, HttpServletRequest request) {
+        ErroRespostaDto errorResponse = ErroRespostaDto.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message("Recurso não encontrado.")
+                .errors(List.of(new ErroCampo(e.getCampo(), e.getMessage())))
                 .path(request.getRequestURI())
                 .build();
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErroRespostaDto> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException e,
+                                                                                  HttpServletRequest request) {
+
+        ErroRespostaDto errorResponse = ErroRespostaDto.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message("JSON inválido ou campos com formato incorreto")
+                .path(request.getRequestURI())
+                .errors(List.of())
+                .build();
+
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 }

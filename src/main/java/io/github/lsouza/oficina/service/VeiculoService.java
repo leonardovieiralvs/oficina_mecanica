@@ -2,6 +2,8 @@ package io.github.lsouza.oficina.service;
 
 import io.github.lsouza.oficina.dto.veiculos.VeiculoRequestDto;
 import io.github.lsouza.oficina.dto.veiculos.VeiculoResponseDto;
+import io.github.lsouza.oficina.exceptions.ClienteNotFoundException;
+import io.github.lsouza.oficina.exceptions.OperationNotAllowedException;
 import io.github.lsouza.oficina.mappers.VeiculoMapper;
 import io.github.lsouza.oficina.models.Cliente;
 import io.github.lsouza.oficina.models.OrdemServico;
@@ -37,13 +39,14 @@ public class VeiculoService {
     }
 
     public VeiculoResponseDto salvarVeiculo(VeiculoRequestDto veiculoRequestDto) {
-        Cliente cliente = clienteRepository.findById(veiculoRequestDto.idCliente()).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        Cliente cliente = clienteRepository.findById(veiculoRequestDto.idCliente()).orElseThrow(() -> new ClienteNotFoundException("idCliente", "Cliente não encontrado"));
 
+        if (veiculoRepository.existsByPlaca(veiculoRequestDto.placa())) {
+            throw new OperationNotAllowedException("placa", "Placa já existente no banco");
+        }
 
         Veiculo veiculo = veiculoMapper.toEntityRequest(veiculoRequestDto);
         veiculo.setCliente(cliente);
-
-        System.out.println(veiculo.getCliente().getNome());
 
         Veiculo veiculoSalvo = veiculoRepository.save(veiculo);
         return veiculoMapper.toResponseEntity(veiculoSalvo);
