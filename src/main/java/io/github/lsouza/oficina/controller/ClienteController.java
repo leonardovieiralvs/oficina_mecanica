@@ -42,10 +42,10 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteResponseDto> atualizarCliente(@PathVariable UUID id,
-                                                               @RequestBody @Valid ClienteRequestDto clienteDto) {
-        ClienteResponseDto clienteResponseDto = clienteService.atualizarCliente(id, clienteDto);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(clienteResponseDto);
+    public ResponseEntity<Void> atualizarCliente(@PathVariable UUID id,
+                                                 @RequestBody @Valid ClienteRequestDto clienteDto) {
+        clienteService.atualizarCliente(id, clienteDto);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

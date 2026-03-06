@@ -52,12 +52,10 @@ public class ClienteService {
         return clienteMapper.toResponseEntity(clienteSalvo);
     }
 
-    public ClienteResponseDto atualizarCliente(UUID id, ClienteRequestDto clienteDto) {
+    public void atualizarCliente(UUID id, ClienteRequestDto clienteDto) {
         Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         clienteMapper.atualizar(cliente, clienteDto);
-
-        return clienteMapper.toResponseEntity(cliente);
     }
 
     public void deleteById(UUID id) {

@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -78,6 +79,21 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message("JSON inválido ou campos com formato incorreto")
+                .path(request.getRequestURI())
+                .errors(List.of())
+                .build();
+
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErroRespostaDto> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException e,
+                                                                                  HttpServletRequest request) {
+
+        ErroRespostaDto errorResponse = ErroRespostaDto.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message("ID informado possui formato inválido")
                 .path(request.getRequestURI())
                 .errors(List.of())
                 .build();

@@ -2,6 +2,7 @@ package io.github.lsouza.oficina.controller;
 
 import io.github.lsouza.oficina.dto.veiculos.VeiculoRequestDto;
 import io.github.lsouza.oficina.dto.veiculos.VeiculoResponseDto;
+import io.github.lsouza.oficina.models.Veiculo;
 import io.github.lsouza.oficina.service.VeiculoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/veiculos")
@@ -30,5 +32,17 @@ public class VeiculoController {
 
         VeiculoResponseDto veiculoSalvo = veiculoService.salvarVeiculo(veiculoRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(veiculoSalvo);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizarVeiculo(@PathVariable UUID id, @RequestBody @Valid VeiculoRequestDto request) {
+        veiculoService.atualizarVeiculo(id, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarVeiculo(@PathVariable UUID id) {
+        veiculoService.deletarVeiculo(id);
+        return ResponseEntity.noContent().build();
     }
 }

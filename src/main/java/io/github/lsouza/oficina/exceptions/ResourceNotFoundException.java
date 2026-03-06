@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class ResourceNotFoundException extends RuntimeException {
 
-    private String campo;
+    private final String campo;
 
     public ResourceNotFoundException(String campo, String message) {
         super(message);

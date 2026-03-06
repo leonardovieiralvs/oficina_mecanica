@@ -3,7 +3,9 @@ package io.github.lsouza.oficina.service;
 import io.github.lsouza.oficina.dto.veiculos.VeiculoRequestDto;
 import io.github.lsouza.oficina.dto.veiculos.VeiculoResponseDto;
 import io.github.lsouza.oficina.exceptions.ClienteNotFoundException;
+import io.github.lsouza.oficina.exceptions.ConflictException;
 import io.github.lsouza.oficina.exceptions.OperationNotAllowedException;
+import io.github.lsouza.oficina.exceptions.VeiculoNotFoundException;
 import io.github.lsouza.oficina.mappers.VeiculoMapper;
 import io.github.lsouza.oficina.models.Cliente;
 import io.github.lsouza.oficina.models.OrdemServico;
@@ -50,5 +52,19 @@ public class VeiculoService {
 
         Veiculo veiculoSalvo = veiculoRepository.save(veiculo);
         return veiculoMapper.toResponseEntity(veiculoSalvo);
+    }
+
+    public void atualizarVeiculo(UUID id, VeiculoRequestDto request) {
+        Veiculo veiculo = veiculoRepository.findById(id).orElseThrow(() -> new VeiculoNotFoundException("id", "Veiculo não encontrado para atualização"));
+
+        veiculoMapper.updateEntity(veiculo, request);
+    }
+
+    public void deletarVeiculo(UUID id) {
+        if (ordemRepository.existsByVeiculo_id(id)) {
+            throw new ConflictException("Não é possivel deletar um Veiculo com ordem de serviço aberta.");
+        };
+        Veiculo veiculo = veiculoRepository.findById(id).orElseThrow(() -> new VeiculoNotFoundException("id", "Veiculo não encontrado para deleção"));
+        veiculoRepository.delete(veiculo);
     }
 }
