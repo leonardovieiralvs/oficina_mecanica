@@ -40,14 +40,14 @@ public class VeiculoService {
         return all.stream().map(veiculoMapper::toResponseEntity).toList();
     }
 
-    public VeiculoResponseDto salvarVeiculo(VeiculoRequestDto veiculoRequestDto) {
-        Cliente cliente = clienteRepository.findById(veiculoRequestDto.idCliente()).orElseThrow(() -> new ClienteNotFoundException("idCliente", "Cliente não encontrado"));
+    public VeiculoResponseDto salvarVeiculo(VeiculoRequestDto veiculoRequest) {
+        Cliente cliente = clienteRepository.findById(veiculoRequest.idCliente()).orElseThrow(() -> new ClienteNotFoundException("idCliente", "Cliente não encontrado"));
 
-        if (veiculoRepository.existsByPlaca(veiculoRequestDto.placa())) {
+        if (veiculoRepository.existsByPlaca(veiculoRequest.placa())) {
             throw new OperationNotAllowedException("placa", "Placa já existente no banco");
         }
 
-        Veiculo veiculo = veiculoMapper.toEntityRequest(veiculoRequestDto);
+        Veiculo veiculo = veiculoMapper.toEntityRequest(veiculoRequest);
         veiculo.setCliente(cliente);
 
         Veiculo veiculoSalvo = veiculoRepository.save(veiculo);

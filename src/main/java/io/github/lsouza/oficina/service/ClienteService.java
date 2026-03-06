@@ -40,13 +40,13 @@ public class ClienteService {
         return all.stream().map(clienteMapper::toResponseEntity).toList();
     }
 
-    public ClienteResponseDto salvarCliente(ClienteRequestDto clienteDto) {
+    public ClienteResponseDto salvarCliente(ClienteRequestDto clienteRequest) {
 
-        if (clienteRepository.existsByCpf(clienteDto.cpf())) {
+        if (clienteRepository.existsByCpf(clienteRequest.cpf())) {
             throw new ConflictException("CPF já cadastrado no banco");
         }
 
-        Cliente cliente = clienteMapper.toEntityRequest(clienteDto);
+        Cliente cliente = clienteMapper.toEntityRequest(clienteRequest);
         Cliente clienteSalvo = clienteRepository.save(cliente);
 
         return clienteMapper.toResponseEntity(clienteSalvo);

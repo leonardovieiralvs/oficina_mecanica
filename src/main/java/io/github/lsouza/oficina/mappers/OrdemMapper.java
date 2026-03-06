@@ -11,5 +11,7 @@ public interface OrdemMapper {
 
     OrdemServico toOrdemEntity(OrdemServicoRequestDto dtoRequest);
 
+    OrdemServicoResponseDto toResponseEntity(OrdemServico servico);
+
     OrdemServicoResponseDto toResponseRequest(OrdemServico ordemServico);
 }

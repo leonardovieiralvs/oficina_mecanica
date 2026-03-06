@@ -1,5 +1,6 @@
 package io.github.lsouza.oficina.dto.ordemservico;
 
+import io.github.lsouza.oficina.dto.veiculos.VeiculoResponseDto;
 import io.github.lsouza.oficina.enums.StatusOS;
 
 import java.math.BigDecimal;
@@ -10,5 +11,6 @@ public record OrdemServicoResponseDto(UUID id,
                                       String descricao,
                                       BigDecimal valor,
                                       StatusOS status,
-                                      LocalDateTime dataAbertura) {
+                                      LocalDateTime dataAbertura,
+                                      VeiculoResponseDto veiculo) {
 }

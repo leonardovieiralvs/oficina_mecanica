@@ -7,10 +7,10 @@ import io.github.lsouza.oficina.service.OrdemServicoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/ordens")
@@ -20,6 +20,12 @@ public class OrdemServicoController {
 
     public OrdemServicoController(OrdemServicoService ordemServicoService) {
         this.ordemServicoService = ordemServicoService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<OrdemServicoResponseDto>> listarTodos() {
+        List<OrdemServicoResponseDto> lista = ordemServicoService.listarTodos();
+        return ResponseEntity.ok(lista);
     }
 
     @PostMapping
