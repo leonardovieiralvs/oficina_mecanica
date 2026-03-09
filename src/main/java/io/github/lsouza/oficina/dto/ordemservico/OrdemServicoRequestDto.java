@@ -13,7 +13,7 @@ public record OrdemServicoRequestDto(@NotBlank(message = "Campo obrigatório")
                                      BigDecimal valor,
                                      @NotNull(message = "Campo obrigatório")
                                      StatusOS status,
-                                     @NotNull(message = "Campo obrigatório")
+//                                     @NotNull(message = "Campo obrigatório")
                                      UUID idVeiculo) {
 }
 

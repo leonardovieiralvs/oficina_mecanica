@@ -34,6 +34,13 @@ public class OrdemServicoController {
         OrdemServicoResponseDto ordemSalva = ordemServicoService.salvarOrdem(ordemRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ordemSalva);
-
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> ordemAtualizar(@PathVariable UUID id,
+                                               @RequestBody @Valid OrdemServicoRequestDto ordemRequest) {
+        ordemServicoService.atualizarOrdem(id, ordemRequest);
+        return ResponseEntity.noContent().build();
+    }
+
 }
