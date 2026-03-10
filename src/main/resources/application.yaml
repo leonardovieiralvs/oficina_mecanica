@@ -1,6 +1,6 @@
 spring:
   application:
-    name: libraryapi
+    name: mecanica-api
   datasource:
     url: jdbc:postgresql://localhost:5432/mecanicadb
     username: postgres
@@ -9,5 +9,5 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
-#      ddl-auto: none
+#      ddl-auto: update
+      ddl-auto: none
