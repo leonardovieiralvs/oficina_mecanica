@@ -11,6 +11,7 @@ import io.github.lsouza.oficina.models.Veiculo;
 import io.github.lsouza.oficina.repository.OrdemServicoRepository;
 import io.github.lsouza.oficina.repository.VeiculoRepository;
 import io.github.lsouza.oficina.repository.specs.OrdemSpecificationRules;
+import io.github.lsouza.oficina.validator.OrdemServicoValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -83,26 +84,15 @@ public class OrdemServicoService {
         OrdemServico ordemServico = ordemServicoRepository.findById(id)
                 .orElseThrow(() -> new OrdemNotFoundException("Id", "Ordem não encontrada"));
 
-
-        if (ordemServico.getStatus() != StatusOS.EM_ANDAMENTO) {
-            throw new RuntimeException("Só é possível concluir uma ordem EM_ANDAMENTO");
-        }
         ordemMapper.updateEntity(ordemServico, ordemRequest);
-        ordemServico.setStatus(StatusOS.CONCLUIDA);
+
+        OrdemServicoValidator.concluirApenasEmAndamento(ordemServico);
+        OrdemServicoValidator.concluirApenasUmaVez(ordemServico);
+        OrdemServicoValidator.naoCancelarAposConcluida(ordemServico);
     }
-   /*
 
-   Regras:
-    - Só pode CONCLUIR se estiver EM_ANDAMENTO
-    - Não pode concluir duas vezes
-    - Ao concluir, preencher dataConclusao
-    - Não pode cancelar se já estiver CONCLUIDA
-   ENUMS:
-        ABERTA,
-        AGUARDANDO_PECA,
-        EM_ANDAMENTO,
-        CONLUIDA,
-        CANCELADA
-
-    */
+    public void deletarPorId(UUID id) {
+        OrdemServico ordemId = ordemServicoRepository.findById(id).orElseThrow(() -> new OrdemNotFoundException("Id", "Ordem de serviço não encontrada."));
+        ordemServicoRepository.delete(ordemId);
+    }
 }

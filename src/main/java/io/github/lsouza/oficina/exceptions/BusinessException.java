@@ -1,7 +1,7 @@
-package io.github.lsouza.oficina.exceptions.handler;
+package io.github.lsouza.oficina.exceptions;
 
-public class RegraNegocioException extends RuntimeException {
-  public RegraNegocioException(String message) {
-    super(message);
-  }
+public class BusinessException extends ResourceNotFoundException {
+    public BusinessException(String campo, String message) {
+        super(campo, message);
+    }
 }
