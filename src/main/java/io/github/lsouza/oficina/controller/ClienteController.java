@@ -31,8 +31,8 @@ public class ClienteController {
     public ResponseEntity<Page<ClienteResponseDto>> pesquisarPorPage(@RequestParam(name = "nome", required = false) String nome,
                                                                      @RequestParam(name = "cpf", required = false) String cpf,
                                                                      @RequestParam(name = "telefone", required = false) String telefone,
-                                                                     @RequestParam(name = "pagina_inicial", defaultValue = "0") Integer numeroPagina,
-                                                                     @RequestParam(name = "pagina_final", defaultValue = "10") Integer tamanhoPagina) {
+                                                                     @RequestParam(name = "pagina-inicial", defaultValue = "0") Integer numeroPagina,
+                                                                     @RequestParam(name = "pagina-final", defaultValue = "10") Integer tamanhoPagina) {
 
         Page<ClienteResponseDto> clientesPage = clienteService.pesquisarPorPage(nome, cpf, telefone, numeroPagina, tamanhoPagina);
         return ResponseEntity.ok(clientesPage);

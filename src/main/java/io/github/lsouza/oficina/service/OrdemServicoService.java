@@ -10,10 +10,14 @@ import io.github.lsouza.oficina.models.OrdemServico;
 import io.github.lsouza.oficina.models.Veiculo;
 import io.github.lsouza.oficina.repository.OrdemServicoRepository;
 import io.github.lsouza.oficina.repository.VeiculoRepository;
+import io.github.lsouza.oficina.repository.specs.OrdemSpecificationRules;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Transactional
@@ -36,9 +40,31 @@ public class OrdemServicoService {
         return ordemMapper.toResponseDto(ordemId);
     }
 
-    public List<OrdemServicoResponseDto> listarTodos() {
-        List<OrdemServico> all = ordemServicoRepository.findAll();
-        return all.stream().map(ordemMapper::toResponseDto).toList();
+    public Page<OrdemServicoResponseDto> pesquisarPorPage(String descricao, BigDecimal valorMin, BigDecimal valorMax, StatusOS status, Integer numeroPagina, Integer tamanhoPagina) {
+
+        Specification<OrdemServico> spec = Specification.allOf();
+
+        if (descricao != null) {
+            spec = spec.and(OrdemSpecificationRules.descricaoLike(descricao));
+        }
+
+        if (valorMin != null) {
+            spec = spec.and(OrdemSpecificationRules.valorMin(valorMin));
+        }
+
+        if (valorMax != null) {
+            spec = spec.and(OrdemSpecificationRules.valorMax(valorMax));
+        }
+
+        if (status != null) {
+            spec = spec.and(OrdemSpecificationRules.statusEquals(status));
+        }
+
+        PageRequest pageRequest = PageRequest.of(numeroPagina, tamanhoPagina);
+
+        Page<OrdemServico> ordens = ordemServicoRepository.findAll(spec, pageRequest);
+
+        return ordens.map(ordemMapper::toResponseDto);
     }
 
     public OrdemServicoResponseDto salvarOrdem(OrdemServicoRequestDto ordemRequest) {
