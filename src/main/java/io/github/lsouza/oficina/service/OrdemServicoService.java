@@ -2,7 +2,6 @@ package io.github.lsouza.oficina.service;
 
 import io.github.lsouza.oficina.dto.ordemservico.OrdemServicoRequestDto;
 import io.github.lsouza.oficina.dto.ordemservico.OrdemServicoResponseDto;
-import io.github.lsouza.oficina.dto.veiculos.VeiculoResponseDto;
 import io.github.lsouza.oficina.enums.StatusOS;
 import io.github.lsouza.oficina.exceptions.OrdemNotFoundException;
 import io.github.lsouza.oficina.exceptions.VeiculoNotFoundException;
@@ -31,6 +30,11 @@ public class OrdemServicoService {
         this.ordemMapper = ordemMapper;
     }
 
+
+    public OrdemServicoResponseDto pesquisarPorId(UUID id) {
+        OrdemServico ordemId = ordemServicoRepository.findById(id).orElseThrow(() -> new OrdemNotFoundException("Id", "Ordem de serviço não encontrada."));
+        return ordemMapper.toResponseEntity(ordemId);
+    }
 
     public List<OrdemServicoResponseDto> listarTodos() {
         List<OrdemServico> all = ordemServicoRepository.findAll();

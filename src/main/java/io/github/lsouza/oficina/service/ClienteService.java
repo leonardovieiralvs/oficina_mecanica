@@ -30,9 +30,9 @@ public class ClienteService {
         this.clienteMapper = clienteMapper;
     }
 
-    public ClienteResponseDto procurarPorId(UUID id) {
-        Cliente clienteResultado = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-        return clienteMapper.toResponseEntity(clienteResultado);
+    public ClienteResponseDto pesquisarPorId(UUID id) {
+        Cliente clienteId = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado."));
+        return clienteMapper.toResponseEntity(clienteId);
     }
 
     public List<ClienteResponseDto> listarTodos() {

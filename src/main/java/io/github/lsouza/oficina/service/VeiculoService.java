@@ -35,6 +35,11 @@ public class VeiculoService {
         this.veiculoMapper = veiculoMapper;
     }
 
+    public VeiculoResponseDto pesquisarPorId(UUID id) {
+        Veiculo veiculoId = veiculoRepository.findById(id).orElseThrow(() -> new VeiculoNotFoundException("Id", "Id não encontrado."));
+        return veiculoMapper.toResponseEntity(veiculoId);
+    }
+
     public List<VeiculoResponseDto> listarTodos() {
         List<Veiculo> all = veiculoRepository.findAll();
         return all.stream().map(veiculoMapper::toResponseEntity).toList();

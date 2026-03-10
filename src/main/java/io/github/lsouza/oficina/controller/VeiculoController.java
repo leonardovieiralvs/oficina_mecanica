@@ -22,6 +22,11 @@ public class VeiculoController {
         this.veiculoService = veiculoService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<VeiculoResponseDto> pesquisarPorId(@PathVariable UUID id) {
+        return ResponseEntity.ok(veiculoService.pesquisarPorId(id));
+    }
+
     @GetMapping
     public ResponseEntity<List<VeiculoResponseDto>> listarTodos() {
         return ResponseEntity.ok(veiculoService.listarTodos());

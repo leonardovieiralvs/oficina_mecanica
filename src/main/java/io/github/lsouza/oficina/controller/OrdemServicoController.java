@@ -2,7 +2,6 @@ package io.github.lsouza.oficina.controller;
 
 import io.github.lsouza.oficina.dto.ordemservico.OrdemServicoRequestDto;
 import io.github.lsouza.oficina.dto.ordemservico.OrdemServicoResponseDto;
-import io.github.lsouza.oficina.models.OrdemServico;
 import io.github.lsouza.oficina.service.OrdemServicoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,6 +19,11 @@ public class OrdemServicoController {
 
     public OrdemServicoController(OrdemServicoService ordemServicoService) {
         this.ordemServicoService = ordemServicoService;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<OrdemServicoResponseDto> pesquisarPorId(@PathVariable UUID id) {
+        return ResponseEntity.ok(ordemServicoService.pesquisarPorId(id));
     }
 
     @GetMapping
