@@ -9,11 +9,11 @@ public class VeiculoSpecificationRules {
         return (root, query, cb) ->  cb.equal(root.get("placa"), placa);
     }
 
-    public Specification<Veiculo> modeloLike(String modelo) {
+    public static Specification<Veiculo> modeloLike(String modelo) {
         return (root, query, cb) -> cb.like(cb.upper(root.get("modelo")), "%" + modelo.toUpperCase() + "%");
     }
 
-    public Specification<Veiculo> anoEquals(Integer ano) {
+    public static Specification<Veiculo> anoEquals(Integer ano) {
         return (root, query, cb) -> cb.equal(root.get("ano"), ano);
     }
 }

@@ -5,6 +5,7 @@ import io.github.lsouza.oficina.dto.veiculos.VeiculoResponseDto;
 import io.github.lsouza.oficina.models.Veiculo;
 import io.github.lsouza.oficina.service.VeiculoService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,14 @@ public class VeiculoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<VeiculoResponseDto>> listarTodos() {
-        return ResponseEntity.ok(veiculoService.listarTodos());
+    public ResponseEntity<Page<VeiculoResponseDto>> pesquisarPorPage(@RequestParam(name = "placa", required = false) String placa,
+                                                                     @RequestParam(name = "modelo", required = false) String modelo,
+                                                                     @RequestParam(name = "ano", required = false) Integer ano,
+                                                                     @RequestParam(name = "numero-pagina", defaultValue = "0") Integer numeroPagina,
+                                                                     @RequestParam(name = "tamanho-pagina", defaultValue = "10") Integer tamanhoPagina) {
+
+        Page<VeiculoResponseDto> veiculosPage = veiculoService.pesquisarPorPage(placa, modelo, ano, numeroPagina, tamanhoPagina);
+        return ResponseEntity.ok(veiculosPage);
     }
 
     @PostMapping

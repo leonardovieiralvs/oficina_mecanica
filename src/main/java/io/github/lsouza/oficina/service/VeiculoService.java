@@ -12,6 +12,10 @@ import io.github.lsouza.oficina.models.Veiculo;
 import io.github.lsouza.oficina.repository.ClienteRepository;
 import io.github.lsouza.oficina.repository.OrdemServicoRepository;
 import io.github.lsouza.oficina.repository.VeiculoRepository;
+import io.github.lsouza.oficina.repository.specs.VeiculoSpecificationRules;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,9 +43,26 @@ public class VeiculoService {
         return veiculoMapper.toResponseDto(veiculoId);
     }
 
-    public List<VeiculoResponseDto> listarTodos() {
-        List<Veiculo> all = veiculoRepository.findAll();
-        return all.stream().map(veiculoMapper::toResponseDto).toList();
+    public Page<VeiculoResponseDto> pesquisarPorPage(String placa, String modelo, Integer ano, Integer numeroPagina, Integer tamanhoPagina) {
+
+        Specification<Veiculo> spec = Specification.allOf();
+
+        if (placa != null) {
+            spec = spec.and(VeiculoSpecificationRules.placaEquals(placa));
+        }
+
+        if (modelo != null) {
+            spec = spec.and(VeiculoSpecificationRules.modeloLike(modelo));
+        }
+
+        if (ano != null) {
+            spec = spec.and(VeiculoSpecificationRules.anoEquals(ano));
+        }
+
+        PageRequest pageRequest = PageRequest.of(numeroPagina, tamanhoPagina);
+
+        Page<Veiculo> veiculos = veiculoRepository.findAll(spec, pageRequest);
+        return veiculos.map(veiculoMapper::toResponseDto);
     }
 
     public VeiculoResponseDto salvarVeiculo(VeiculoRequestDto veiculoRequest) {
