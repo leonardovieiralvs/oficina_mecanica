@@ -8,7 +8,6 @@ import io.github.lsouza.oficina.exceptions.OperationNotAllowedException;
 import io.github.lsouza.oficina.exceptions.VeiculoNotFoundException;
 import io.github.lsouza.oficina.mappers.VeiculoMapper;
 import io.github.lsouza.oficina.models.Cliente;
-import io.github.lsouza.oficina.models.OrdemServico;
 import io.github.lsouza.oficina.models.Veiculo;
 import io.github.lsouza.oficina.repository.ClienteRepository;
 import io.github.lsouza.oficina.repository.OrdemServicoRepository;
@@ -37,12 +36,12 @@ public class VeiculoService {
 
     public VeiculoResponseDto pesquisarPorId(UUID id) {
         Veiculo veiculoId = veiculoRepository.findById(id).orElseThrow(() -> new VeiculoNotFoundException("Id", "Id não encontrado."));
-        return veiculoMapper.toResponseEntity(veiculoId);
+        return veiculoMapper.toResponseDto(veiculoId);
     }
 
     public List<VeiculoResponseDto> listarTodos() {
         List<Veiculo> all = veiculoRepository.findAll();
-        return all.stream().map(veiculoMapper::toResponseEntity).toList();
+        return all.stream().map(veiculoMapper::toResponseDto).toList();
     }
 
     public VeiculoResponseDto salvarVeiculo(VeiculoRequestDto veiculoRequest) {
@@ -52,11 +51,11 @@ public class VeiculoService {
             throw new OperationNotAllowedException("placa", "Placa já existente no banco");
         }
 
-        Veiculo veiculo = veiculoMapper.toEntityRequest(veiculoRequest);
+        Veiculo veiculo = veiculoMapper.toVeiculoEntity(veiculoRequest);
         veiculo.setCliente(cliente);
 
         Veiculo veiculoSalvo = veiculoRepository.save(veiculo);
-        return veiculoMapper.toResponseEntity(veiculoSalvo);
+        return veiculoMapper.toResponseDto(veiculoSalvo);
     }
 
     public void atualizarVeiculo(UUID id, VeiculoRequestDto request) {

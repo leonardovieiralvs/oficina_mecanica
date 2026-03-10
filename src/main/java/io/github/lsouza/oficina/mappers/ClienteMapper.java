@@ -10,9 +10,9 @@ import org.mapstruct.MappingTarget;
 public interface ClienteMapper {
 
 
-    Cliente toEntityRequest(ClienteRequestDto clienteRequestDto);
+    Cliente toClienteEntity(ClienteRequestDto clienteRequestDto);
 
-    ClienteResponseDto toResponseEntity(Cliente cliente);
+    ClienteResponseDto toResponseDto(Cliente cliente);
 
     void atualizar(@MappingTarget Cliente cliente, ClienteRequestDto clienteDto);
 

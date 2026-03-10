@@ -12,9 +12,7 @@ public interface OrdemMapper {
 
     OrdemServico toOrdemEntity(OrdemServicoRequestDto request);
 
-    OrdemServicoResponseDto toResponseEntity(OrdemServico servico);
-
-    OrdemServicoResponseDto toResponseRequest(OrdemServico ordemServico);
+    OrdemServicoResponseDto toResponseDto(OrdemServico servico);
 
     void updateEntity(@MappingTarget OrdemServico ordem, OrdemServicoRequestDto request);
 }

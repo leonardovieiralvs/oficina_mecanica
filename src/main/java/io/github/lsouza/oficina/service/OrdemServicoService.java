@@ -33,12 +33,12 @@ public class OrdemServicoService {
 
     public OrdemServicoResponseDto pesquisarPorId(UUID id) {
         OrdemServico ordemId = ordemServicoRepository.findById(id).orElseThrow(() -> new OrdemNotFoundException("Id", "Ordem de serviço não encontrada."));
-        return ordemMapper.toResponseEntity(ordemId);
+        return ordemMapper.toResponseDto(ordemId);
     }
 
     public List<OrdemServicoResponseDto> listarTodos() {
         List<OrdemServico> all = ordemServicoRepository.findAll();
-        return all.stream().map(ordemMapper::toResponseEntity).toList();
+        return all.stream().map(ordemMapper::toResponseDto).toList();
     }
 
     public OrdemServicoResponseDto salvarOrdem(OrdemServicoRequestDto ordemRequest) {
@@ -49,7 +49,7 @@ public class OrdemServicoService {
 
         OrdemServico save = ordemServicoRepository.save(ordemServico);
 
-        return ordemMapper.toResponseRequest(save);
+        return ordemMapper.toResponseDto(save);
 
     }
 

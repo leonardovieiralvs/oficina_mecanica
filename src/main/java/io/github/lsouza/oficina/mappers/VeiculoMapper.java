@@ -9,9 +9,9 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface VeiculoMapper {
 
-    Veiculo toEntityRequest(VeiculoRequestDto request);
+    Veiculo toVeiculoEntity(VeiculoRequestDto request);
 
-    VeiculoResponseDto toResponseEntity(Veiculo veiculo);
+    VeiculoResponseDto toResponseDto(Veiculo veiculo);
 
     void updateEntity (@MappingTarget Veiculo veiculo, VeiculoRequestDto request);
 }
