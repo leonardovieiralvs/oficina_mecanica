@@ -25,10 +25,17 @@ public class UsuarioService {
 
         usuario.setSenha(encoder.encode(usuario.getSenha()));
 
-        Usuario usuarioSalvo = usuarioRepository.save(usuario);
 
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
         return usuarioMapper.toDto(usuarioSalvo);
     }
+
+
+    public Usuario salvarUsuario2(Usuario usuario) {
+        usuario.setSenha(encoder.encode(usuario.getSenha()));
+        return usuarioRepository.save(usuario);
+    }
+
 
     public UsuarioDto procurarPorLogin(String login) {
         Usuario usuarioLogin = usuarioRepository.findByLogin(login);

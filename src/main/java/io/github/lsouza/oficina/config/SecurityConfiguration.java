@@ -24,12 +24,10 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> {
-                    auth.anyRequest().permitAll();
-
-//                    auth.requestMatchers(HttpMethod.GET, "/clientes/**").hasAnyRole("ADMIN", "FUNCIONARIO");
-//                    auth.requestMatchers("/usuarios/**").permitAll();
-//                    auth.requestMatchers("/ordens/**").hasAnyRole("ADMIN", "FUNCIONARIO");
-//                    auth.anyRequest().authenticated();
+                    auth.requestMatchers(HttpMethod.GET, "/clientes/**").hasAnyRole("ADMIN", "FUNCIONARIO");
+                    auth.requestMatchers("/usuarios/**").hasRole("ADMIN");
+                    auth.requestMatchers("/ordens/**").hasAnyRole("ADMIN", "FUNCIONARIO");
+                    auth.anyRequest().authenticated();
                 })
                 .build();
     }

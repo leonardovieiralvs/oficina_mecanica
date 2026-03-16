@@ -2,7 +2,6 @@ package io.github.lsouza.oficina.models;
 
 import io.github.lsouza.oficina.enums.UserRoles;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,14 +17,13 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull
-    @Column(unique = true)
+    @Column(name = "login", nullable = false, unique = true)
     private String login;
 
-    @NotNull
+    @Column(name = "senha", nullable = false)
     private String senha;
 
+    @Column(name = "roles")
     @Enumerated(EnumType.STRING)
-    private UserRoles userRoles;
-
+    private UserRoles roles;
 }

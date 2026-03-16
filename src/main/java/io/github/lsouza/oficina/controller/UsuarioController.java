@@ -1,6 +1,7 @@
 package io.github.lsouza.oficina.controller;
 
 import io.github.lsouza.oficina.dto.usuario.UsuarioDto;
+import io.github.lsouza.oficina.models.Usuario;
 import io.github.lsouza.oficina.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    private ResponseEntity<UsuarioDto> salvarUsuario(@RequestBody UsuarioDto usuarioDto) {
-        return ResponseEntity.ok(usuarioService.salvarUsuario(usuarioDto));
+    private ResponseEntity<UsuarioDto> salvarUsuario(@RequestBody UsuarioDto usuario) {
+        return ResponseEntity.ok(usuarioService.salvarUsuario(usuario));
     }
 }
