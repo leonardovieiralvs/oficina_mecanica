@@ -24,9 +24,18 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(HttpMethod.GET, "/clientes/**").hasAnyRole("ADMIN", "FUNCIONARIO");
+//                    auth.anyRequest().permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/usuarios/**").hasAnyRole("ADMIN", "FUNCIONARIO");
                     auth.requestMatchers("/usuarios/**").hasRole("ADMIN");
-                    auth.requestMatchers("/ordens/**").hasAnyRole("ADMIN", "FUNCIONARIO");
+
+                    auth.requestMatchers(HttpMethod.GET, "/clientes/**").hasAnyRole("ADMIN", "FUNCIONARIO");
+                    auth.requestMatchers("/clientes/**").hasRole("ADMIN");
+
+                    auth.requestMatchers(HttpMethod.GET, "/veiculos/**").hasAnyRole("ADMIN", "FUNCIONARIO");
+                    auth.requestMatchers("/veiculos/**").hasRole("ADMIN");
+
+                    auth.requestMatchers(HttpMethod.GET, "/ordens/**").hasAnyRole("ADMIN", "FUNCIONARIO");
+                    auth.requestMatchers("/ordens/**").hasRole("ADMIN");
                     auth.anyRequest().authenticated();
                 })
                 .build();
