@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Transactional
@@ -77,19 +78,26 @@ public class OrdemServicoService {
         OrdemServico save = ordemServicoRepository.save(ordemServico);
 
         return ordemMapper.toResponseDto(save);
-
     }
+
 
     public void atualizarOrdem(UUID id, OrdemServicoRequestDto ordemRequest) {
         OrdemServico ordemServico = ordemServicoRepository.findById(id)
                 .orElseThrow(() -> new OrdemNotFoundException("Id", "Ordem não encontrada"));
 
+        // validar a transição usando o status atual da entidade (antes do mapper sobrescrever)
+        OrdemServicoValidator.validarTransicao(ordemServico, ordemRequest.status());
+
         ordemMapper.updateEntity(ordemServico, ordemRequest);
 
-        OrdemServicoValidator.concluirApenasEmAndamento(ordemServico);
-        OrdemServicoValidator.concluirApenasUmaVez(ordemServico);
-        OrdemServicoValidator.naoCancelarAposConcluida(ordemServico);
+        // segurança extra: se ficou CONCLUIDA e dataConclusao ainda está nula, preenche com a data atual
+        if (ordemServico.getStatus() == StatusOS.CONCLUIDA && ordemServico.getDataConclusao() == null) {
+            ordemServico.setDataConclusao(LocalDate.now());
+        }
+
+        ordemServicoRepository.save(ordemServico);
     }
+
 
     public void deletarPorId(UUID id) {
         OrdemServico ordemId = ordemServicoRepository.findById(id).orElseThrow(() -> new OrdemNotFoundException("Id", "Ordem de serviço não encontrada."));

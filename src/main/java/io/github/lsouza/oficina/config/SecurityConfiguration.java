@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import security.CustomUserDetailsService;
+import io.github.lsouza.oficina.security.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -24,18 +24,12 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> {
-//                    auth.anyRequest().permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/usuarios/**").hasAnyRole("ADMIN", "FUNCIONARIO");
-                    auth.requestMatchers("/usuarios/**").hasRole("ADMIN");
+                    auth.requestMatchers("/usuarios/**").permitAll();
 
-                    auth.requestMatchers(HttpMethod.GET, "/clientes/**").hasAnyRole("ADMIN", "FUNCIONARIO");
-                    auth.requestMatchers("/clientes/**").hasRole("ADMIN");
+                    auth.requestMatchers("/clientes/**").hasAnyRole("ADMIN", "FUNCIONARIO");
+                    auth.requestMatchers("/veiculos/**").hasAnyRole("ADMIN", "FUNCIONARIO");
+                    auth.requestMatchers("/ordens/**").hasAnyRole("ADMIN", "FUNCIONARIO");
 
-                    auth.requestMatchers(HttpMethod.GET, "/veiculos/**").hasAnyRole("ADMIN", "FUNCIONARIO");
-                    auth.requestMatchers("/veiculos/**").hasRole("ADMIN");
-
-                    auth.requestMatchers(HttpMethod.GET, "/ordens/**").hasAnyRole("ADMIN", "FUNCIONARIO");
-                    auth.requestMatchers("/ordens/**").hasRole("ADMIN");
                     auth.anyRequest().authenticated();
                 })
                 .build();

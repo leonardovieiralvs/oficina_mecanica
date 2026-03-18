@@ -6,7 +6,7 @@
 
 API REST desenvolvida com **Java e Spring Boot** para gerenciamento de uma oficina mecânica.
 
-Este foi meu **primeiro projeto backend completo**, criado com o objetivo de praticar conceitos importantes de desenvolvimento de APIs utilizando o ecossistema Spring.
+Projeto desenvolvido para consolidar conhecimentos em APIs REST com Spring Boot.
 
 ---
 
@@ -79,6 +79,46 @@ Durante o desenvolvimento deste projeto foram aplicados diversos conceitos impor
 - **specification**
 - **validation**
 - **exception**
+---
+
+# 🧪 Testando a API (Postman)
+
+Este projeto possui uma collection do Postman para facilitar os testes dos endpoints.
+
+## 📥 Importando a collection
+
+1. Abra o Postman
+2. Clique em **Import**
+3. Selecione o arquivo `postman_collection.json`
+
+Variáveis padrão:
+
+- host = http://localhost:8080
+- username = admin
+- password = admin123
+---
+## 🔄 Fluxo recomendado
+
+1. **Criar usuário (sem autenticação)**  
+   `POST /usuarios`
+```json
+{
+  "login": "admin",
+  "senha": "admin123",
+  "roles": "ADMIN"
+}
+```
+
+2. Configure o Basic Auth no Postman:
+- username: admin
+- password: admin123
+
+3. Criar cliente → copiar o ID retornado
+
+4. Criar veículo usando `idCliente`
+
+5. Criar ordem usando `idVeiculo`
+
 ---
 # 📖 Aprendizados
 

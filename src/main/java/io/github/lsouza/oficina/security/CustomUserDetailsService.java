@@ -1,4 +1,4 @@
-package security;
+package io.github.lsouza.oficina.security;
 
 import io.github.lsouza.oficina.dto.usuario.UsuarioDto;
 import io.github.lsouza.oficina.service.UsuarioService;

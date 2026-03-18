@@ -4,38 +4,56 @@ import io.github.lsouza.oficina.enums.StatusOS;
 import io.github.lsouza.oficina.exceptions.BusinessException;
 import io.github.lsouza.oficina.models.OrdemServico;
 
+import java.time.LocalDate;
 public class OrdemServicoValidator {
 
-    public static void concluirApenasEmAndamento(OrdemServico ordemServico) {
+    /**
+     * Valida e aplica a transição de status em uma ordem existente.
+     *
+     * Regras implementadas:
+     * - Só pode FINALIZAR (CONCLUIDA) se estiver EM_ANDAMENTO
+     * - Não pode concluir duas vezes (se já está CONCLUIDA -> erro)
+     * - Ao concluir, preencher dataConclusao com a data atual
+     * - Não pode cancelar se já estiver CONCLUIDA
+*/
 
-        if (ordemServico.getStatus() != StatusOS.EM_ANDAMENTO) {
-            throw new BusinessException("Status", "Só é possível concluir uma ordem EM_ANDAMENTO");
+
+    public static void validarTransicao(OrdemServico existe, StatusOS novoStatus) {
+        if (existe == null) {
+            throw new IllegalArgumentException("OrdemServico existente não pode ser nula");
         }
-        ordemServico.setStatus(StatusOS.CONCLUIDA);
-    }
 
-    public static void concluirApenasUmaVez(OrdemServico ordemServico) {
-
-        if (ordemServico.getStatus() == StatusOS.CONCLUIDA) {
-            throw new BusinessException("Status", "Esta ordem já foi CONCLUIDA");
+        if (novoStatus == null) {
+            return;
         }
-    }
 
-    public static void naoCancelarAposConcluida(OrdemServico ordemServico) {
+        StatusOS atual = existe.getStatus();
 
-        if (StatusOS.CONCLUIDA.equals(ordemServico.getStatus())) {
-            throw new BusinessException("Status", "Não é permitido cancelar uma ordem já concluída");
+        // Regra: CONCLUIR
+        if (novoStatus == StatusOS.CONCLUIDA) {
+            if (atual == StatusOS.CONCLUIDA) {
+                throw new BusinessException("status", "Esta ordem já foi CONCLUIDA");
+            }
+            if (atual != StatusOS.EM_ANDAMENTO) {
+                throw new BusinessException("status", "Só é possível concluir uma ordem EM_ANDAMENTO");
+            }
+            existe.setStatus(StatusOS.CONCLUIDA);
+            existe.setDataConclusao(LocalDate.now());
+            return;
         }
+
+        // Regra: CANCELAR
+        if (novoStatus == StatusOS.CANCELADA) {
+            if (atual == StatusOS.CONCLUIDA) {
+                throw new BusinessException("status", "Não é permitido cancelar uma ordem já concluída");
+            }
+
+            if (atual == StatusOS.CANCELADA) {
+                throw new BusinessException("status", "Esta ordem já está CANCELADA");
+            }
+            existe.setStatus(StatusOS.CANCELADA);
+            return;
+        }
+        existe.setStatus(novoStatus);
     }
 }
-
-
-/*
-
-Regras:
-- Só pode FINALIZAR se estiver EM_ANDAMENTO
-- Não pode concluir duas vezes
-- Ao concluir, preencher dataConclusao
-- Não pode cancelar se já estiver CONCLUIDA
-
- */

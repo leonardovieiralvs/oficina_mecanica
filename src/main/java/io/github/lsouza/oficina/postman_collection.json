@@ -1,0 +1,393 @@
+{
+  "info": {
+    "name": "Oficina API - Collection",
+    "description": "Coleção com exemplos para CRUD de usuários, clientes, veículos e ordens. Use Basic Auth após criar usuário.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "oficina-collection-0001"
+  },
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "admin",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "admin123",
+      "type": "string"
+    },
+    {
+      "key": "clienteId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "veiculoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "ordemId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{username}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{password}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Create User (no auth) - criar admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"login\": \"admin\",\n  \"senha\": \"admin123\",\n  \"roles\": \"ADMIN\"\n}"
+        },
+        "url": {
+          "raw": "{{host}}/usuarios",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "usuarios"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Client - POST /clientes",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"João Silva\",\n  \"cpf\": \"12345678901\",\n  \"telefone\": \"11999999999\"\n}"
+        },
+        "url": {
+          "raw": "{{host}}/clientes",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "clientes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Client by ID - GET /clientes/:id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/clientes/{{clienteId}}",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "clientes",
+            "{{clienteId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Client - PUT /clientes/:id",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"João Silva Atualizado\",\n  \"cpf\": \"12345678901\",\n  \"telefone\": \"11988888888\"\n}"
+        },
+        "url": {
+          "raw": "{{host}}/clientes/{{clienteId}}",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "clientes",
+            "{{clienteId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Client - DELETE /clientes/:id",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/clientes/{{clienteId}}",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "clientes",
+            "{{clienteId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Vehicle - POST /veiculos",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"placa\": \"ABC1234\",\n  \"modelo\": \"Gol\",\n  \"ano\": 2010,\n  \"idCliente\": \"{{clienteId}}\"\n}"
+        },
+        "url": {
+          "raw": "{{host}}/veiculos",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "veiculos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Vehicle by ID - GET /veiculos/:id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/veiculos/{{veiculoId}}",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "veiculos",
+            "{{veiculoId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Vehicle - PUT /veiculos/:id",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"placa\": \"ABC1234\",\n  \"modelo\": \"Gol Special\",\n  \"ano\": 2011,\n  \"idCliente\": \"{{clienteId}}\"\n}"
+        },
+        "url": {
+          "raw": "{{host}}/veiculos/{{veiculoId}}",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "veiculos",
+            "{{veiculoId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Vehicle - DELETE /veiculos/:id",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/veiculos/{{veiculoId}}",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "veiculos",
+            "{{veiculoId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Order - POST /ordens",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"descricao\": \"Troca de óleo\",\n  \"valor\": 150.0,\n  \"status\": \"EM_ANDAMENTO\",\n  \"idVeiculo\": \"{{veiculoId}}\"\n}"
+        },
+        "url": {
+          "raw": "{{host}}/ordens",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "ordens"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Order by ID - GET /ordens/:id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/ordens/{{ordemId}}",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "ordens",
+            "{{ordemId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Orders (filters + pagination) - GET /ordens",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/ordens?descricao=óleo&valor-min=50&valor-max=500&status=EM_ANDAMENTO&numero-pagina=0&tamanho-pagina=10",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "ordens"
+          ],
+          "query": [
+            {
+              "key": "descricao",
+              "value": "óleo"
+            },
+            {
+              "key": "valor-min",
+              "value": "50"
+            },
+            {
+              "key": "valor-max",
+              "value": "500"
+            },
+            {
+              "key": "status",
+              "value": "EM_ANDAMENTO"
+            },
+            {
+              "key": "numero-pagina",
+              "value": "0"
+            },
+            {
+              "key": "tamanho-pagina",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Order - PUT /ordens/:id",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"descricao\": \"Troca de óleo e filtro\",\n  \"valor\": 200.0,\n  \"status\": \"CONCLUIDA\",\n  \"idVeiculo\": \"{{veiculoId}}\"\n}"
+        },
+        "url": {
+          "raw": "{{host}}/ordens/{{ordemId}}",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "ordens",
+            "{{ordemId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Order - DELETE /ordens/:id",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/ordens/{{ordemId}}",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "ordens",
+            "{{ordemId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
