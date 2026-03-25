@@ -28,14 +28,16 @@ Projeto desenvolvido para consolidar conhecimentos em APIs REST com Spring Boot.
 
 Durante o desenvolvimento deste projeto foram aplicados diversos conceitos importantes:
 
-- Arquitetura em camadas (**Controller, Service, Repository**)
-- Uso de **Enum para controle de status**
-- Uso de **DTOs** para comunicação da API
-- Conversão entre **DTO e Entidade com MapStruct**
-- **Tratamento global de exceções**
-- **Paginação de resultados**
-- **Filtros dinâmicos utilizando Specification**
-- Implementação de **regras de negócio**
+- Arquitetura em camadas (Controller, Service, Repository)
+- Separação de responsabilidades (SRP)
+- Uso de DTOs para isolamento da camada de domínio
+- Mapeamento entre DTOs e entidades com MapStruct
+- Tratamento global de exceções com padronização de respostas (HTTP + payload)
+- Paginação e ordenação de resultados
+- Construção de filtros dinâmicos com Specification (JPA Criteria API)
+- Implementação de regras de negócio na camada de serviço
+- Uso de Enum para controle de estados da aplicação
+- Validação de dados com Bean Validation (@Valid, @NotNull, etc.)
 
 ---
 
