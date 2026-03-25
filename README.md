@@ -128,10 +128,13 @@ Variáveis padrão:
 Durante o desenvolvimento deste projeto pude praticar:
 
 - Construção de APIs REST com Spring Boot
-- Organização de projeto em camadas
+- Organização de projeto em camadas (Controller, Service, Repository)
 - Implementação de regras de negócio
 - Uso de filtros dinâmicos com Specification
-- Mapeamento entre DTOs e entidades
+- Mapeamento entre DTOs e entidades com MapStruct
+- Implementação de autenticação e autorização com Spring Security e JWT
+- Proteção de endpoints com controle de acesso
+- Tratamento global de exceções e padronização de respostas HTTP
 ---
 # 🎯 Objetivo do projeto
 
