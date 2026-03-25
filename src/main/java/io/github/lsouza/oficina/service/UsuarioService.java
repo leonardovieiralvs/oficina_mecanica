@@ -3,6 +3,7 @@ package io.github.lsouza.oficina.service;
 import io.github.lsouza.oficina.dto.usuario.AutenticarUsuarioDto;
 import io.github.lsouza.oficina.dto.usuario.RegistrarUsuarioDto;
 import io.github.lsouza.oficina.dto.usuario.UsuarioResponseDto;
+import io.github.lsouza.oficina.exceptions.ConflictException;
 import io.github.lsouza.oficina.infra.security.TokenService;
 import io.github.lsouza.oficina.mappers.UsuarioMapper;
 import io.github.lsouza.oficina.models.Usuario;
@@ -27,6 +28,10 @@ public class UsuarioService {
 
 
     public UsuarioResponseDto registrarUsuario(RegistrarUsuarioDto usuarioDto) {
+        if (usuarioRepository.findByLogin(usuarioDto.login()).isPresent()) {
+            throw new ConflictException("Login já existente.");
+        }
+
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
 
         usuario.setSenha(encoder.encode(usuarioDto.senha()));
