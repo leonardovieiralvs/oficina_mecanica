@@ -1,5 +1,6 @@
 package io.github.lsouza.oficina.exceptions.handler;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
 import io.github.lsouza.oficina.dto.errors.ErroCampo;
 import io.github.lsouza.oficina.dto.errors.ErroRespostaDto;
 import io.github.lsouza.oficina.exceptions.ConflictException;
@@ -94,6 +95,19 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message("ID informado possui formato inválido")
+                .path(request.getRequestURI())
+                .errors(List.of())
+                .build();
+
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(JWTCreationException.class)
+    public ResponseEntity<ErroRespostaDto> jwtCreationExceptionHandler(JWTCreationException e, HttpServletRequest request) {
+        ErroRespostaDto errorResponse = ErroRespostaDto.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(e.getMessage())
                 .path(request.getRequestURI())
                 .errors(List.of())
                 .build();

@@ -11,3 +11,7 @@ spring:
     hibernate:
       ddl-auto: update
 #      ddl-auto: none
+
+apí:
+  token:
+    securiy: "my-secret-key"
