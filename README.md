@@ -81,6 +81,7 @@ Durante o desenvolvimento deste projeto foram aplicados diversos conceitos impor
 - **specification**
 - **validation**
 - **exception**
+- **infra**
 ---
 
 # 🧪 Testando a API (Postman)
