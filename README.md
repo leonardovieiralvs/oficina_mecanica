@@ -109,15 +109,18 @@ Variáveis padrão:
 }
 ```
 
-2. Configure o Basic Auth no Postman:
-- username: admin
-- password: admin123
+2. Configurar o Token JWT no Postman:
+- Ir até a aba Authorization
+- Selecionar o tipo: Bearer Token
+- No campo Token, informar o JWT retornado no login
+- Exemplo:
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
-3. Criar cliente → copiar o ID retornado
+3. Criar um cliente e copiar o ID retornado (será utilizado nas próximas requisições)
 
-4. Criar veículo usando `idCliente`
+4. Criar um veículo utilizando o idCliente
 
-5. Criar ordem usando `idVeiculo`
+5. Criar uma ordem utilizando o idVeiculo
 
 ---
 # 📖 Aprendizados
