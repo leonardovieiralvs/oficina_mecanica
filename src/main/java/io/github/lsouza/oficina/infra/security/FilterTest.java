@@ -1,6 +1,5 @@
 package io.github.lsouza.oficina.infra.security;
 
-import io.github.lsouza.oficina.models.Usuario;
 import io.github.lsouza.oficina.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,7 +15,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Component
-public class SecurityFilter extends OncePerRequestFilter {
+public class FilterTest extends OncePerRequestFilter {
 
     private final TokenService tokenService;
     private final UsuarioRepository usuarioRepository;
@@ -28,8 +27,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if (login != null) {
             usuarioRepository.findByLogin(login).ifPresent(usuario -> {
-                var autenticacao = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(autenticacao);
+                var autoridades = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(autoridades);
             });
         }
         filterChain.doFilter(request, response);
